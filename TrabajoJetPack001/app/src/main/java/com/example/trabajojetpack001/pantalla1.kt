@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun PantallaPrincipal() {
     var number by remember { mutableIntStateOf(0) }
+    var sms by remember { mutableStateOf(" ") }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -33,14 +35,27 @@ fun PantallaPrincipal() {
 
         Text("$number", fontSize = 40.sp)
         // Add el boton
-        MiBoton(){
+        BotonAdd(){
             number++
+            if (number>=5){
+                sms = "ALTO"
+            }else if(number >=-5)
+                sms = ""
+
         }
+        Boton2(){
+            number--
+            if (number<=-5){
+                sms = "BAJO"
+            }else if(number <=5)
+                sms = ""
+        }
+
+        Text("$sms" )
     }
 }
-
 @Composable
-fun MiBoton(onClick: () -> Unit) {
+fun BotonAdd(onClick: () -> Unit) {
 
     Button(
         onClick = {
@@ -48,6 +63,18 @@ fun MiBoton(onClick: () -> Unit) {
         }
     ) {
         Text("ADD")
+    }
+}
+
+@Composable
+fun Boton2(onClick: () -> Unit) {
+
+    Button(
+        onClick = {
+            onClick()
+        }
+    ) {
+        Text("DISMINUIR")
     }
 }
 
