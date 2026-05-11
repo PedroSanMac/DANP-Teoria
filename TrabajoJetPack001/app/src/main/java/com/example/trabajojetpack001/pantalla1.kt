@@ -17,12 +17,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-
-
+import androidx.navigation.NavController
 
 
 @Composable
-fun PantallaPrincipal() {
+fun PantallaPrincipal(navController: NavController) {
     var number by remember { mutableIntStateOf(0) }
     var sms by remember { mutableStateOf(" ") }
 
@@ -52,8 +51,16 @@ fun PantallaPrincipal() {
         }
 
         Text("$sms" )
+
+        Button(onClick = {
+            navController.navigate("MessageCard")
+        }) {
+            Text("Ir a otra pantalla")
+        }
     }
 }
+
+
 @Composable
 fun BotonAdd(onClick: () -> Unit) {
 

@@ -10,12 +10,17 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.trabajojetpack001.ui.theme.TrabajoJetPack001Theme
 
 class MainActivity : ComponentActivity() {
@@ -23,11 +28,21 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val navController = rememberNavController()
 
-            PantallaPrincipal()
-           /* TrabajoJetPack001Theme {
-                MessageCard(txt)
-            }*/
+            NavHost(
+                navController = navController,
+                startDestination = "PantallaPrincipal"
+            ) {
+
+                composable("PantallaPrincipal") {
+                    PantallaPrincipal(navController)
+                }
+
+                composable("MessageCard") {
+                    MessageCard(navController)
+                }
+            }
         }
     }
 }
@@ -50,18 +65,24 @@ fun GreetingPreview() {
 }
 
 data class Message(val author: String, val body: String)
-var txt = Message("Pedro", "Hola mundo")
+
 
 
 @Composable
-fun MessageCard(msg: Message) {
+fun MessageCard(navController: NavController) {
     // Add padding around our message
-
+    var txt = Message("Pedro", "Hola mundo")
     Column {
-        Text(text = msg.author)
+        Text(text = txt.author)
         // Add a vertical space between the author and message texts
         Spacer(modifier = Modifier.height(4.dp))
-        Text(text = msg.body)
+        Text(text = txt.body)
+
+        Button(onClick = {
+            navController.popBackStack()
+        }) {
+            Text("Volver")
+        }
     }
 
 }
